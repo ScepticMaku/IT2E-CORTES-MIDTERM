@@ -1,5 +1,6 @@
 package departmentexam;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Implementation extends config{
@@ -38,7 +39,7 @@ public class Implementation extends config{
     }
     
     public void updateDepartment(){
-        System.out.println("Enter ID you want to edit: ");
+        System.out.print("Enter ID you want to edit: ");
         id = sc.nextInt();
         
         System.out.print("Select what you want to edit: "
@@ -48,59 +49,69 @@ public class Implementation extends config{
                 + "\n4. Phone Number"
                 + "\n5. Email"
                 + "\nEnter selection: ");
-        int select = sc.nextInt();
         
-        switch(select){
-            case 1:
-                System.out.print("Enter new Department Name: ");
-                sc.nextLine();
-                String newName = sc.nextLine();
-                sql = "UPDATE departments SET department_name = ? WHERE department_id = ?";
-                updateRecord(sql, newName, id);
-                break;
-            case 2:
-                System.out.print("Enter new Department Head");
-                sc.nextLine();
-                String newHead = sc.nextLine();
-                sql = "UPDATE departments SET department_head = ? WHERE department_id = ?";
-                updateRecord(sql, newHead, id);
-                break;
-            case 3:
-                System.out.print("Enter new Location: ");
-                sc.nextLine();
-                String newLocation = sc.nextLine();
-                sql = "UPDATE departments SET location = ? WHERE department_id = ?";
-                updateRecord(sql, newLocation, id);
-                break;
-            case 4:
-                System.out.print("Enter new Phone Number: ");
-                int newNumber = sc.nextInt();
-                sql = "UPDATE departments SET phone_number = ? WHERE department_id = ?";
-                updateRecord(sql, newNumber, id);
-                break;
-            case 5:
-                System.out.print("Enter new Email: ");
-                String newEmail = sc.next();
-                sql = "UPDATE departments SET email = ? WHERE department_id = ?";
-                updateRecord(sql, newEmail, id);
-                break;
-            default: System.out.println("Error: Invalid selection.");
+        try{
+            int select = sc.nextInt();
+        
+            switch(select){
+                case 1:
+                    System.out.print("Enter new Department Name: ");
+                    sc.nextLine();
+                    String newName = sc.nextLine();
+                    sql = "UPDATE departments SET department_name = ? WHERE department_id = ?";
+                    updateRecord(sql, newName, id);
+                    break;
+                case 2:
+                    System.out.print("Enter new Department Head: ");
+                    sc.nextLine();
+                    String newHead = sc.nextLine();
+                    sql = "UPDATE departments SET department_head = ? WHERE department_id = ?";
+                    updateRecord(sql, newHead, id);
+                    break;
+                case 3:
+                    System.out.print("Enter new Location: ");
+                    sc.nextLine();
+                    String newLocation = sc.nextLine();
+                    sql = "UPDATE departments SET location = ? WHERE department_id = ?";
+                    updateRecord(sql, newLocation, id);
+                    break;
+                case 4:
+                    System.out.print("Enter new Phone Number: ");
+                    int newNumber = sc.nextInt();
+                    sql = "UPDATE departments SET phone_number = ? WHERE department_id = ?";
+                    updateRecord(sql, newNumber, id);
+                    break;
+                case 5:
+                    System.out.print("Enter new Email: ");
+                    String newEmail = sc.next();
+                    sql = "UPDATE departments SET email = ? WHERE department_id = ?";
+                    updateRecord(sql, newEmail, id);
+                    break;
+                default: System.out.println("Error: Invalid selection.");
+            }
+        } catch(InputMismatchException e){
+            System.out.println("Error: Must only be a number.");
         }
     }
     
     public void deleteDepartment(){
         System.out.print("Enter ID you want to delete: ");
-        id = sc.nextInt();
         
-        System.out.print("Confirm delete? [y/n]: ");
-        confirm = sc.next();
-        
-        if(confirm.equalsIgnoreCase("y")){
-            sql = "DELETE FROM departments WHERE department_id = ?";
-            deleteRecord(sql, id);
-            System.out.println("Deletion successfull!");
-        } else{
-            System.out.println("Deletion cancelled.");
+        try{
+            id = sc.nextInt();
+
+            System.out.print("Confirm delete? [y/n]: ");
+            confirm = sc.next();
+
+            if(confirm.equalsIgnoreCase("y")){
+                sql = "DELETE FROM departments WHERE department_id = ?";
+                deleteRecord(sql, id);
+                System.out.println("Deletion successfull!");
+            } else{
+                System.out.println("Deletion cancelled.");
+            }
+        } catch(InputMismatchException e){
+            System.out.println("Error: Must only be a number.");
         }
     }
 }
